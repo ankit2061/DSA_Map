@@ -1,6 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
+import { useRouter } from "next/navigation"
 import { allProblems, getAllTopics } from "@/lib/data"
 import { useFilterStore, useTrackerStore } from "@/lib/store"
 import type { Status } from "@/lib/types"
@@ -17,6 +18,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ onNavClick }: SidebarProps) {
+  const router = useRouter()
   const { topic, setTopic, showFavoritesOnly, setShowFavoritesOnly, resetFilters } = useFilterStore()
   const { progress } = useTrackerStore()
   const topics = getAllTopics()
@@ -43,13 +45,23 @@ export function Sidebar({ onNavClick }: SidebarProps) {
 
   function navigate(newTopic: string) {
     setTopic(newTopic)
+    router.push('/')
     onNavClick?.()
   }
 
   return (
     <div className="flex flex-col h-full select-none">
       {/* ── Logo ─────────────────────────────────────────────────── */}
-      <div className="flex items-center gap-2.5 h-[var(--header-height)] px-4 border-b border-sidebar-border flex-shrink-0">
+      <div 
+        className="flex items-center gap-2.5 h-[var(--header-height)] px-4 border-b border-sidebar-border flex-shrink-0 cursor-pointer"
+        onClick={() => {
+          resetFilters()
+          router.push('/')
+          onNavClick?.()
+        }}
+        role="button"
+        tabIndex={0}
+      >
         <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-primary flex-shrink-0">
           <Hash className="h-3.5 w-3.5 text-primary-foreground" />
         </div>
@@ -73,6 +85,7 @@ export function Sidebar({ onNavClick }: SidebarProps) {
           isActive={!topic && !showFavoritesOnly}
           onClick={() => {
             resetFilters()
+            router.push('/')
             onNavClick?.()
           }}
         />
@@ -83,6 +96,7 @@ export function Sidebar({ onNavClick }: SidebarProps) {
           isActive={showFavoritesOnly}
           onClick={() => {
             setShowFavoritesOnly(true)
+            router.push('/')
             onNavClick?.()
           }}
         />

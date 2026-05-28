@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Sidebar } from "./sidebar"
 import { Header } from "./header"
 import { Sheet, SheetContent } from "@/components/ui/sheet"
+import { useSyncSupabase } from "@/lib/hooks/use-sync-supabase"
 
 interface AppShellProps {
   children: React.ReactNode
@@ -19,6 +20,7 @@ interface AppShellProps {
  * mutually exclusive — opening one never stacks over the other.
  */
 export function AppShell({ children }: AppShellProps) {
+  useSyncSupabase()
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
 
   return (

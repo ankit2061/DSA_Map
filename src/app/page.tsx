@@ -6,12 +6,15 @@ import { DifficultySplit } from "@/components/dashboard/difficulty-split"
 import { ProblemFilters } from "@/components/dashboard/problem-filters"
 import { ProblemTable } from "@/components/dashboard/problem-table"
 import { Pagination } from "@/components/dashboard/pagination"
+import { useUser } from "@/lib/hooks/use-user"
 
 export default function Home() {
   const hour = new Date().getHours()
   const greeting =
     hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening"
-  const userName = process.env.NEXT_PUBLIC_USER_NAME || "there"
+  
+  const loggedInUser = useUser()
+  const userName = loggedInUser || process.env.NEXT_PUBLIC_USER_NAME || "there"
 
   return (
     <>

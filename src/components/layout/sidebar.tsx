@@ -11,6 +11,8 @@ import {
   Star,
   Hash,
 } from "lucide-react"
+import { useUser } from "@/lib/hooks/use-user"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 interface SidebarProps {
   /** Called after a nav item is clicked — lets the AppShell close the mobile Sheet */
@@ -22,6 +24,10 @@ export function Sidebar({ onNavClick }: SidebarProps) {
   const { topic, setTopic, showFavoritesOnly, setShowFavoritesOnly, resetFilters } = useFilterStore()
   const { progress } = useTrackerStore()
   const topics = getAllTopics()
+  
+  const loggedInUser = useUser()
+  const displayUserName = loggedInUser || process.env.NEXT_PUBLIC_USER_NAME || "User"
+
 
   const totalSolved = allProblems.filter(
     (p) => ((progress[String(p.id)]?.status ?? p.status) as Status) === "solved"
@@ -120,12 +126,15 @@ export function Sidebar({ onNavClick }: SidebarProps) {
       {/* ── Footer / user ────────────────────────────────────────── */}
       <div className="flex-shrink-0 p-3 border-t border-sidebar-border">
         <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-lg">
-          <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-            <span className="text-[11px] font-bold text-primary">A</span>
-          </div>
+          <Avatar className="w-8 h-8">
+            <AvatarImage src="/profile.png" alt={displayUserName} className="object-cover" />
+            <AvatarFallback className="text-[11px] font-bold text-primary bg-primary/20">
+              {displayUserName.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
           <div className="flex-1 min-w-0">
             <p className="text-[13px] font-semibold text-sidebar-foreground truncate">
-              {process.env.NEXT_PUBLIC_USER_NAME || "User"}
+              {displayUserName}
             </p>
             <p className="text-[11px] text-muted-foreground">
               {totalSolved} solved

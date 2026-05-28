@@ -54,6 +54,7 @@ export interface TrackerState {
       mistakes?: string
     }
   ) => void
+  hydrateProgress: (progress: Record<string, UserProgress>) => void
 }
 
 // ─── In-memory filter/UI store ────────────────────────────────────────────────

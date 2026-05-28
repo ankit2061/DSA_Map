@@ -59,6 +59,21 @@ export const useTrackerStore = create<TrackerState>()(
             },
           },
         })),
+
+      hydrateProgress: (serverProgress) =>
+        set((state) => {
+          // Merge server progress with local state, keeping the most recently updated versions
+          const newProgress = { ...state.progress }
+          
+          for (const [id, serverItem] of Object.entries(serverProgress)) {
+            const localItem = newProgress[id]
+            if (!localItem || serverItem.lastUpdated > localItem.lastUpdated) {
+              newProgress[id] = serverItem
+            }
+          }
+          
+          return { progress: newProgress }
+        }),
     }),
     { name: "dsa-tracker-storage" }
   )

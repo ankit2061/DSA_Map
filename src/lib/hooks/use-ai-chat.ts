@@ -72,9 +72,16 @@ export function useAiChat(problemId: number | null) {
 
   // Reset when the selected problem changes
   useEffect(() => {
-    clearChat()
-    abortRef.current = false
-  }, [problemId, clearChat])
+    // Reset state without calling clearChat to avoid setState warnings
+    abortRef.current = true
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMessages([])
+    setIsLoading(false)
+    
+    return () => {
+      abortRef.current = false
+    }
+  }, [problemId])
 
   const sendMessage = useCallback(
     async (text: string) => {

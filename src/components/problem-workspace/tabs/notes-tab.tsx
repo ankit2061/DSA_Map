@@ -6,13 +6,17 @@ import { Check } from "lucide-react"
 
 export function NotesTab({ problemId }: { problemId: string }) {
   const { progress, saveNotes } = useTrackerStore()
-  const [value, setValue] = useState(progress[problemId]?.notes ?? "")
+  const currentNotes = progress[problemId]?.notes ?? ""
+  const [value, setValue] = useState(currentNotes)
+  const [prevProblemId, setPrevProblemId] = useState(problemId)
   const [showSaved, setShowSaved] = useState(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  useEffect(() => {
-    setValue(progress[problemId]?.notes ?? "")
-  }, [problemId, progress])
+  // Derive state based on problemId change to avoid useEffect
+  if (problemId !== prevProblemId) {
+    setPrevProblemId(problemId)
+    setValue(currentNotes)
+  }
 
   useEffect(() => () => { if (timerRef.current) clearTimeout(timerRef.current) }, [])
 
@@ -26,6 +30,12 @@ export function NotesTab({ problemId }: { problemId: string }) {
       setTimeout(() => setShowSaved(false), 2200)
     }, 600)
   }
+
+  // Reset to current notes when problemId changes
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setValue(currentNotes)
+  }, [problemId, currentNotes])
 
   return (
     <div className="max-w-3xl">

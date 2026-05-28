@@ -1,4 +1,3 @@
-import { use } from "react"
 import { notFound } from "next/navigation"
 import { getProblemBySlug } from "@/lib/data"
 import { WorkspaceLayout } from "@/components/problem-workspace/workspace-layout"
@@ -9,8 +8,8 @@ import { AiSidebar } from "@/components/problem-workspace/ai-sidebar"
 import { Sparkles } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-export default function ProblemPage({ params }: { params: Promise<{ slug: string }> }) {
-  const resolvedParams = use(params)
+export default async function ProblemPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params
   const problem = getProblemBySlug(resolvedParams.slug)
 
   if (!problem) {

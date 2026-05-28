@@ -13,16 +13,21 @@ export function RevisionTab({ problemId }: { problemId: string }) {
   const confidence = prog.confidence ?? null
   const revisitLater = prog.revisitLater ?? false
   const lastReviewed = prog.lastReviewed
-  const [mistakes, setMistakes] = useState(prog.mistakes ?? "")
+  const currentMistakes = prog.mistakes ?? ""
+  const [mistakes, setMistakes] = useState(currentMistakes)
   
   const [showSaved, setShowSaved] = useState(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [prevProblemId, setPrevProblemId] = useState(problemId)
 
-  useEffect(() => {
-    setMistakes(prog.mistakes ?? "")
-  }, [prog.mistakes])
+  // Derive state based on problemId change to avoid useEffect
+  if (problemId !== prevProblemId) {
+    setPrevProblemId(problemId)
+    setMistakes(currentMistakes)
+  }
 
   useEffect(() => () => { if (timerRef.current) clearTimeout(timerRef.current) }, [])
+
 
   function handleMistakesChange(newVal: string) {
     setMistakes(newVal)

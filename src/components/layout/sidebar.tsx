@@ -125,7 +125,7 @@ export function Sidebar({ onNavClick }: SidebarProps) {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[13px] font-semibold text-sidebar-foreground truncate">
-              Ankit
+              {process.env.NEXT_PUBLIC_USER_NAME || "User"}
             </p>
             <p className="text-[11px] text-muted-foreground">
               {totalSolved} solved

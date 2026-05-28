@@ -1,7 +1,5 @@
 "use client"
 
-import { useMediaQuery } from "@/lib/hooks/use-media-query"
-
 interface WorkspaceLayoutProps {
   sidebar: React.ReactNode
   mainContent: React.ReactNode
@@ -15,8 +13,6 @@ interface WorkspaceLayoutProps {
  * to handle its own mobile presentation (e.g., rendering as a Sheet trigger).
  */
 export function WorkspaceLayout({ sidebar, mainContent }: WorkspaceLayoutProps) {
-  const isDesktop = useMediaQuery("(min-width: 1024px)")
-
   return (
     <div className="w-full max-w-[1600px] mx-auto min-h-[calc(100vh-var(--header-height))]">
       <div className="flex flex-col lg:grid lg:grid-cols-[minmax(300px,32%)_1fr] lg:items-start h-full">

@@ -21,6 +21,28 @@ export const metadata: Metadata = {
   title: "DSA Map — LeetCode Problem Tracker",
   description:
     "Track your DSA progress, take notes, and master coding interviews with a clean, focused problem tracker.",
+  keywords: ["DSA", "LeetCode", "Problem Tracker", "Interview Prep", "Coding"],
+  authors: [{ name: "DSA Map" }],
+  creator: "DSA Map",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://dsa-map.vercel.app",
+    title: "DSA Map — LeetCode Problem Tracker",
+    description:
+      "Track your DSA progress, take notes, and master coding interviews with a clean, focused problem tracker.",
+    siteName: "DSA Map",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DSA Map — LeetCode Problem Tracker",
+    description:
+      "Track your DSA progress, take notes, and master coding interviews with a clean, focused problem tracker.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default function RootLayout({

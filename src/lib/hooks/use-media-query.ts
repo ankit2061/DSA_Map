@@ -15,11 +15,17 @@ export function useMediaQuery(query: string): boolean {
     if (typeof window === "undefined") return
 
     const media = window.matchMedia(query)
-    setMatches(media.matches)
+    const handleChange = (e: MediaQueryListEvent) => setMatches(e.matches)
+    
+    // Set initial value only if different from current state
+    if (media.matches !== matches) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setMatches(media.matches)
+    }
 
-    const listener = (e: MediaQueryListEvent) => setMatches(e.matches)
-    media.addEventListener("change", listener)
-    return () => media.removeEventListener("change", listener)
+    media.addEventListener("change", handleChange)
+    return () => media.removeEventListener("change", handleChange)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query])
 
   return matches

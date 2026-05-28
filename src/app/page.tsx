@@ -11,6 +11,7 @@ export default function Home() {
   const hour = new Date().getHours()
   const greeting =
     hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening"
+  const userName = process.env.NEXT_PUBLIC_USER_NAME || "there"
 
   return (
     <>
@@ -19,7 +20,7 @@ export default function Home() {
         {/* Greeting */}
         <div>
           <h1 className="text-[22px] font-bold tracking-tight text-foreground">
-            {greeting}, Ankit 👋
+            {greeting}, {userName} 👋
           </h1>
           <p className="text-base text-muted-foreground mt-0.5 leading-relaxed">
             Track your progress and keep grinding.
